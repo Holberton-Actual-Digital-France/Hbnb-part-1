@@ -2,6 +2,10 @@
 
 from flask import Flask
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from config import Config
+from dotenv import load_dotenv
+
 
 cors = CORS()
 

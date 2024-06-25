@@ -11,6 +11,7 @@ from abc import ABC
 import os
 
 
+
 class Config(ABC):
     """
     Initial configuration settings
@@ -21,6 +22,10 @@ class Config(ABC):
     TESTING = False
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI', 'sqlite:///development.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    USE_DATABASE = os.getenv('USE_DATABASE', 'False').lower() in ['true', '1', 't']
 
 
 class DevelopmentConfig(Config):
@@ -80,3 +85,5 @@ class ProductionConfig(Config):
         "DATABASE_URL",
         "postgresql://user:password@localhost/hbnb_prod"
     )
+
+
