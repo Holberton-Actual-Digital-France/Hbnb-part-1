@@ -1,16 +1,27 @@
-FROM python:3.12.3-slim
+# Use Python 3.8 base image
+FROM python:3.8
 
+# Install PostgreSQL dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       postgresql-client \
+       libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set environment variables
+ENV PYTHONUNBUFFERED 1
+
+# Set working directory
 WORKDIR /app
 
-COPY requirements.txt /tmp/requirements.txt
+# Copy and install requirements
+COPY requirements.txt /app/
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-RUN pip install --no-cache-dir -r /tmp/requirements.txt \
-  && rm -rf /tmp
+# Expose port
+EXPOSE 5000
 
-COPY . .
+# Command to run the application
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
 
-ENV PORT 5000
-
-EXPOSE $PORT
-
-CMD gunicorn hbnb:app -w 2 -b 0.0.0.0:$PORT
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
