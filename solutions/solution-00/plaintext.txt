@@ -1,0 +1,7 @@
+Flask==2.0.2
+Flask-SQLAlchemy==2.5.1
+SQLAlchemy==1.4.25
+
+DATABASE_TYPE=sqlite
+DATABASE_URL=sqlite:///dev.db
+ENV=development
